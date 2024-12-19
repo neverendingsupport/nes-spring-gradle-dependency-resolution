@@ -1,1 +1,14 @@
-rootProject.name = 'spring-security-oauth-test'
+pluginManagement {
+  repositories {
+    maven {
+      url = uri(providers.gradleProperty("herodevs_nes_maven_registry_url").get())
+      credentials {
+        username = providers.gradleProperty("herodevs_nes_maven_registry_user").get()
+        password = providers.gradleProperty("herodevs_nes_maven_registry_token").get()
+      }
+    }
+    mavenCentral()
+  }
+}
+
+rootProject.name = 'nes-spring-gradle-dependency-resolution'

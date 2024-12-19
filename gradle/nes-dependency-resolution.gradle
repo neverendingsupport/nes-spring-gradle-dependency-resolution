@@ -1,0 +1,66 @@
+
+def springFrameworkModules = [
+    "spring-aop",
+    "spring-aspects",
+    "spring-beans",
+    "spring-core",
+    "spring-context",
+    "spring-context-indexer",
+    "spring-context-support",
+    "spring-expression",
+    "spring-instrument",
+    "spring-jcl",
+    "spring-jdbc",
+    "spring-jms",
+    "spring-messaging",
+    "spring-orm",
+    "spring-oxm",
+    "spring-r2dbc",
+    "spring-test",
+    "spring-tx",
+    "spring-web",
+    "spring-webflux",
+    "spring-webmvc",
+    "spring-websocket"]
+
+configurations.configureEach {
+  resolutionStrategy.dependencySubstitution {
+    springFrameworkModules.each { artifact ->
+      substitute(module("org.springframework:${artifact}"))
+          .using(module("com.herodevs.nes.springframework:${artifact}:${project.ext["spring-framework.version"]}"))
+          .because("Replaced with HeroDevs NES")
+    }
+  }
+}
+
+def springSecurityModules = [
+    "spring-security-web",
+    "spring-security-test",
+    "spring-security-taglibs",
+    "spring-security-saml2-service-provider",
+    "spring-security-rsocket",
+    "spring-security-remoting",
+    "spring-security-openid",
+    "spring-security-oauth2-resource-server",
+    "spring-security-config",
+    "spring-security-oauth2-jose",
+    "spring-security-oauth2-client",
+    "spring-security-oauth2-core",
+    "spring-security-messaging",
+    "spring-security-ldap",
+    "spring-security-core",
+    "spring-security-data",
+    "spring-security-cas",
+    "spring-security-acl",
+    "spring-security-aspects",
+    "spring-security-crypto"]
+
+configurations.configureEach {
+  resolutionStrategy.dependencySubstitution {
+    springSecurityModules.each { artifact ->
+      substitute(module("org.springframework.security:${artifact}"))
+          .using(module("com.herodevs.nes.springframework.security:${artifact}:${project.ext["spring-security.version"]}"))
+          .because("Replaced with HeroDevs NES")
+    }
+  }
+}

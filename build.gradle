@@ -1,34 +1,50 @@
 plugins {
-	id "java"
-	id "org.springframework.boot" version "2.7.18"
-	id "io.spring.dependency-management" version "1.0.15.RELEASE"
+  id "java"
+  id "com.herodevs.nes.springframework.boot" version "2.7.18-spring-boot-2.7.20"
+  id "io.spring.dependency-management" version "1.0.15.RELEASE"
 }
 
 group = "com.herodevs.demo"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+ext["spring-framework.version"] = "5.3.39-spring-framework-5.3.44"
+ext["spring-security.version"] = "5.8.16-spring-security-5.8.17"
+
+//configurations {
+//  configureEach {
+//    exclude(group: "org.springframework")
+//    exclude(group: "org.springframework.security")
+//  }
+//}
+
+apply from: "gradle/nes-dependency-resolution.gradle"
+
+dependencies {
+  implementation("com.herodevs.nes.springframework.boot:spring-boot-starter-security")
+  implementation("com.herodevs.nes.springframework.boot:spring-boot-starter-web")
+  implementation("com.herodevs.nes.springframework.security.oauth:spring-security-oauth2:2.5.2-spring-security-oauth-2.5.3")
+  testImplementation("com.herodevs.nes.springframework.boot:spring-boot-starter-test")
+  testImplementation("com.herodevs.nes.springframework.security:spring-security-test")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 repositories {
-	mavenCentral()
-}
-
-ext["spring-framework.version"] = "5.3.39"
-ext["spring-security.version"] = "5.8.16"
-
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.security:spring-security-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  maven {
+    url = uri(providers.gradleProperty("herodevs_nes_maven_registry_url").get())
+    credentials {
+      username = providers.gradleProperty("herodevs_nes_maven_registry_user").get()
+      password = providers.gradleProperty("herodevs_nes_maven_registry_token").get()
+    }
+  }
+  mavenCentral()
 }
 
 tasks.named("test") {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }
